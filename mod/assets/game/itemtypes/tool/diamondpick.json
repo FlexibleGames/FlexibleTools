@@ -1,0 +1,85 @@
+{
+	mainpurpose: "Super Diggy diggy hole!",
+	code: "diamondpick",
+	storageFlags: 5,
+	attributes: {
+		handbook: {
+			groupBy: ["diamondpick-*"]
+		},
+		toolrackTransform: {
+			rotation: { y: 2.5, z: -1 },
+			translation: { x: -0.1, y: 0.59 },
+			scale: 1.25,
+		},
+		groundStorageTransform: {
+			translation: { x: 0, y: 0.05, z: -0.025 },
+			rotation: { x: 26, y: 88, z: -87 },
+			scale: 0.88
+		},		
+		slotRefillIdentifier: "diamondpick"
+	},
+	behaviors: [{ 
+		name: "GroundStorable",
+		properties: {
+			layout: 'WallHalves',
+			wallOffY: 1,
+			sprintKey: true,
+			selectionBox: { x1: 0, y1: 0, z1: 0, x2: 1, y2: 0.1, z2: 1 },
+			collisionBox: { x1: 0, y1: 0, z1: 0, x2: 0, y2: 0, z2: 0 },
+		}
+	}],	
+	variantgroups: [
+		{ code: "metal", states: ["steel"] },
+	],
+	tool: "pickaxe",
+	damagedby: ["blockbreaking", "attacking"],
+	shape: { base: "game:item/tool/diamondpick" },
+	heldTpHitAnimation: "smithing",
+	texturesByType: {
+		"*": {
+			"metal": { base: "game:block/metal/ingot/{metal}" }
+		}
+	},
+	tooltierbytype: {
+		"*-steel": 5
+	},
+	miningspeedbytype: {		
+		"diamondpick-steel": {
+			"ceramic": 5,
+			"stone": 25,
+			"ore": 25,
+			"metal": 25,
+			"ice": 5
+		}
+	},
+	attackpowerbytype: {
+		"diamondpick-steel": 4
+	},
+	durabilitybytype: {
+		"diamondpick-steel": 20000
+	},
+	creativeinventory: { "general": ["*"], "items": ["*"], "tools": ["*"] },
+	guiTransform: {
+		translation: { x: 0, y: 0, z: 0 },
+		rotation: { x: -89, y: 47, z: 33 },
+		origin: { x: 0.61, y: 0, z: 0.47 },
+		scale: 1.7
+	},
+	fpHandTransform: {
+		translation: { x: -0.2, y: -0.2, z: 0 },
+		rotation: { x: 15, y: 15, z: 90 },
+		scale: 2.45
+	},
+	groundTransform: {
+		translation: { x: 0, y: 0, z: 0 },
+		rotation: { x: 0, y: 0, z: 0 },
+		origin: { x: 0.5, y: 0, z: 0.5 },
+		scale: 3.4
+	},
+	tpHandTransform: {
+		translation: { x: -0.87, y: -0.01, z: -0.56 },
+		rotation: { x: -81, y: 0, z: 0 },
+		origin: { x: 0.5, y: 0, z: 0.5 },
+		scale: 0.8
+	}
+}

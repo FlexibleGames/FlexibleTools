@@ -1,0 +1,10 @@
+{
+	ingredientPattern: "D_D,DRD,DDD",
+	ingredients: {
+		"D": { type: "item", code: "game:ingot-gold" },		
+		"R": { type: "item", code: "game:ingot-copper" }		
+	},
+	width: 3,
+	height: 3,
+	output: { type: "item", code: "game:torcmagnet", quantity: 1  }
+}

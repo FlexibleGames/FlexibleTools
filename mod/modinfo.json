@@ -1,0 +1,11 @@
+{
+  "type": "code",
+  "modid": "FlexibleTools",
+  "name": "Flexible Tools",
+  "authors": [ "Flexible Games" ],
+  "description": "My Collection of custom tools, now in their own mod.",
+  "website": "https://www.youtube.com/c/FlexibleGames",
+  "side": "Universal",
+  "version": "2.0.0",
+  "dependency": {}
+}

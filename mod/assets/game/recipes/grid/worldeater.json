@@ -1,0 +1,11 @@
+{
+	ingredientPattern: "DDD,DPD,DDD",
+	ingredients: {
+		"D": { type: "item", code: "game:gem-diamond-*" },
+		"P": { type: "item", code: "game:diamondpick-steel" }
+	},
+	averageDurability: false,
+	width: 3,
+	height: 3,
+	output: { type: "item", code: "game:worldeater", quantity: 1  }
+}

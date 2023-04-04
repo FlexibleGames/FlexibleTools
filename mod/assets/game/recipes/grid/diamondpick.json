@@ -1,0 +1,12 @@
+{
+	ingredientPattern: "DPD,RSR,_S_",
+	ingredients: {
+		"D": { type: "item", code: "game:gem-diamond-*" },
+		"P": { type: "item", code: "game:pickaxehead-steel", name: "metal"  },
+		"R": { type: "item", code: "game:resin" },
+		"S": { type: "item", code: "game:stick" }
+	},
+	width: 3,
+	height: 3,
+	output: { type: "item", code: "game:diamondpick-steel", quantity: 1  }
+}

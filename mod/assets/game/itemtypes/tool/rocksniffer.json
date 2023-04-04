@@ -1,0 +1,143 @@
+{
+	code: "rocksniffer",
+	storageFlags: 5,
+	class: "RockSnifferItem",
+	attributes: {
+		handbook: {
+			groupBy: ["rocksniffer-*"]
+		},
+		toolrackTransform: {
+			rotation: { y: 1, z: -1 },
+			translation: { x: -0.3, y: 0.6 },
+			scale: 1.25,
+		},
+		groundStorageTransform: {
+			translation: { x: 0, y: 0.06, z: -0.035 },
+			rotation: { x: 26, y: 88, z: -87 },
+			scale: 0.88
+		},		
+		slotRefillIdentifier: "rocksniffer"
+	},
+	behaviors: [{ 
+		name: "GroundStorable",
+		properties: {
+			layout: 'WallHalves',
+			wallOffY: 1,
+			sprintKey: true,
+			selectionBox: { x1: 0, y1: 0, z1: 0, x2: 1, y2: 0.1, z2: 1 },
+			collisionBox: { x1: 0, y1: 0, z1: 0, x2: 0, y2: 0, z2: 0 },
+		}
+	}],	
+	variantgroups: [
+		{ code: "metal", states: ["copper", "tinbronze", "bismuthbronze", "blackbronze", "gold", "silver", 
+															"iron", "meteoriciron", "steel"
+		  ] },
+	],
+	tool: "pickaxe",
+	damagedby: ["blockbreaking", "attacking"],
+	shape: { base: "game:item/tool/rocksniffer" },
+	heldTpHitAnimation: "breaktool",
+	texturesByType: {
+		"*": {
+			"metal": { base: "game:block/metal/ingot/{metal}" },
+			"handle": { base: "game:item/tool/material/wood" } 
+		}
+	},
+	tooltierbytype: {
+		"*-stone": 1,
+		"*-copper": 2,
+		"*-gold": 2,
+		"*-silver": 2,
+		"*-bismuthbronze": 3,
+		"*-tinbronze": 3,
+		"*-blackbronze": 3,
+		"*-iron": 4,
+		"*-meteoriciron": 4,
+		"*-steel": 5
+	},
+	miningspeedbytype: {
+		"rocksniffer-copper": {
+			"stone": 2.5,
+			"ore": 2.5
+		},
+		"rocksniffer-bismuthbronze": {
+			"stone": 3,
+			"ore": 3
+		},
+		"rocksniffer-tinbronze": {
+			"stone": 3.3,
+			"ore": 3.3
+		},
+		"rocksniffer-gold": {
+			"stone": 2.7,
+			"ore": 2.7
+		},
+		"rocksniffer-silver": {
+			"stone": 2.7,
+			"ore": 2.7
+		},
+		"rocksniffer-blackbronze": {
+			"stone": 3.5,
+			"ore": 3.5
+		},
+		"rocksniffer-iron": {
+			"stone": 4.5,
+			"ore": 4.5,
+			"metal": 4.5
+		},
+		"rocksniffer-meteoriciron": {
+			"stone": 4.75,
+			"ore": 4.75,
+			"metal": 4.75
+		},
+		"rocksniffer-steel": {
+			"stone": 5.5,
+			"ore": 5.5
+		}
+	},
+	attackpowerbytype: {
+		"rocksniffer-copper": 1.25,
+		"rocksniffer-bismuthbronze": 1.5,
+		"rocksniffer-tinbronze": 1.75,
+		"rocksniffer-gold": 1.75,
+		"rocksniffer-silver": 1.75,
+		"rocksniffer-blackbronze": 2,
+		"rocksniffer-iron": 2.25,
+		"rocksniffer-meteoriciron": 2.35,
+		"rocksniffer-steel": 2.5
+	},
+	durabilitybytype: {
+		"rocksniffer-gold": 60,
+		"rocksniffer-silver": 80,
+		"rocksniffer-copper": 150,
+		"rocksniffer-tinbronze": 250,
+		"rocksniffer-bismuthbronze": 300,
+		"rocksniffer-blackbronze": 350,
+		"rocksniffer-iron": 650,
+		"rocksniffer-meteoriciron": 900,
+		"rocksniffer-steel": 1625
+	},
+	creativeinventory: { "general": ["*"], "items": ["*"], "tools": ["*"] },
+	fpHandTransform: {
+		translation: { x: 0.046875, y: 0, z: 0 },
+		rotation: { x: 15, y: 15, z: 90 },
+		scale: 2.5
+	},
+	guiTransform: {
+		translation: { x: 0, y: 0, z: 0 },
+		rotation: { x: 107, y: -58, z: -16 },
+		origin: { x: 0.44, y: 0.3, z: 0.42 },
+		scale: 1.68
+	},
+	groundTransform: {
+		translation: { x: 0.3, y: 0.4, z: -0.2 },
+		rotation: { x: 0, y: 0, z: 0 },
+		origin: { x: 0.5, y: 0.45, z: 0.5 },
+		scale: 3.6
+	},
+	tpHandTransform: {
+		translation: { x: -0.77, y: -0.5, z: -0.08 },
+		rotation: { x: 90, y: 0, z: -10 },
+		scale: 1
+	}
+}

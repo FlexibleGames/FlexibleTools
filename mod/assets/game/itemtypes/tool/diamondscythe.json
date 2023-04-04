@@ -1,0 +1,60 @@
+{
+	code: "diamondscythe",
+	damagedby: ["blockbreaking"],
+	class: "DiamondScytheItem",
+	tool: "Scythe",	
+	attributes: {
+		codePrefixes: ["crop", "tallgrass", "frostedtallgrass", "tallplant-coopersreed-land-normal", "tallplant-papyrus-land-normal", 
+									 "tallplant-coopersreed-water-normal", "tallplant-papyrus-water-normal", "tallplant-coopersreed-ice-normal", 
+									 "flower-horsetail"
+		],
+		disallowedSuffixes: ["snow2", "snow3"],
+		toolrackTransform: {
+			rotation: { y: 3, z: -1 },
+			translation: { x: -0.35, y: 0.5 },
+			scale: 1,
+		},
+		groundStorageTransform: {
+			translation: { x: 0, y: 0.287, z: -0.148 },
+			rotation: { x: 37, y: 109, z: -100 },
+			scale: 0.88
+		}		
+	},
+	behaviors: [{ 
+		name: "GroundStorable",
+		properties: {
+			layout: 'WallHalves',
+			wallOffY: 2,
+			sprintKey: true,
+			selectionBox: { x1: 0, y1: 0, z1: 0, x2: 1, y2: 0.1, z2: 1 },
+			collisionBox: { x1: 0, y1: 0, z1: 0, x2: 0, y2: 0, z2: 0 },
+		}
+	}],	
+	shape: { base: "game:item/tool/diamondscythe" },
+	heldTpHitAnimation: "scythe",
+	durability: 25000,
+	creativeinventory: { "general": ["*"], "items": ["*"], "tools": ["*"] },
+	guiTransform: {
+		translation: { x: 0, y: 0, z: 0 },
+		rotation: { x: -93, y: 30, z: 44 },
+		origin: { x: 0.5, y: 0, z: 0.05 },
+		scale: 0.82
+	},
+	fpHandTransform: {
+		translation: { x: -0.2, y: -0.2, z: 0 },
+		rotation: { x: 15, y: 15, z: 90 },
+		scale: 2.45
+	},
+	groundTransform: {
+		translation: { x: 0, y: 0, z: 0 },
+		rotation: { x: 0, y: 0, z: 0 },
+		origin: { x: 0.5, y: 0, z: 0.5 },
+		scale: 3.4
+	},
+	tpHandTransform: {
+		translation: { x: -1.24, y: -0.01, z: -0.56 },
+		rotation: { x: -10, y: 0, z: 0 },
+		origin: { x: 0.5, y: 0, z: 0.5 },
+		scale: 0.8
+	}
+}
