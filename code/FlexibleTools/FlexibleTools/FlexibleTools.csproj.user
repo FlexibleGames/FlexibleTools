@@ -9,7 +9,7 @@
     </StartWorkingDirectory>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <StartArguments>-openWorld="ftmodtest" --addModPath "C:\_Programming\Vintage\FlexibleTools\mod"</StartArguments>
+    <StartArguments>-o modtestworld --addModPath "C:\_Programming\Vintage\FlexibleTools"</StartArguments>
     <StartAction>Program</StartAction>
     <StartProgram>C:\Users\simtr\AppData\Roaming\Vintagestory\Vintagestory.exe</StartProgram>
     <StartWorkingDirectory>C:\Users\simtr\AppData\Roaming\Vintagestory\</StartWorkingDirectory>
