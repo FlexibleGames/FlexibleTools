@@ -1,0 +1,17 @@
+{
+	"comment_version": "Mod Version: v2.1.0",
+	"comment_author": "Translated By: RikeiR",
+
+	"item-diamondpick-steel": "先端がダイヤモンドの鋼鉄のつるはし",
+	"itemdesc-diamondpick-steel": "一般的な採掘用のシンプルな（そして速い）つるはし。",
+	"item-worldeater": "ワールドイーター",
+	"itemdesc-worldeater": "3x3、5x5、AOE鉱脈採掘の上級者向け。使用には注意が必要です。自宅では使用しないでください。",
+	"item-diamondscythe": "ダイヤモンドの大鎌",
+	"itemdesc-diamondscythe": "広範囲をクリアするAOE大鎌。農場でも活躍します！",
+	"item-diamondshears": "ダイヤモンドの大ばさみ",
+	"itemdesc-diamondshears": "最大 9x9x9 AOE大ばさみ",
+	"item-torcmagnet": "アイテムマグネット",
+	"itemdesc-torcmagnet": "首に装着して地面にあるものを引き寄せる磁石。着用しているプレイヤーの周囲半径4範囲で効果を発揮します。効果を無効にするには、キャラクターから取り外します。",
+	"item-rocksniffer-*": "岩石探知機",
+	"itemdesc-rocksniffer-*": "石の上で使用すると、その直下にある岩の種類が報告されます。鉱石は無視して報告されません。希少なキンバーライト鉱床を見つけるのに最適です。"
+}
