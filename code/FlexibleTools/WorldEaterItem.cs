@@ -21,6 +21,7 @@ namespace FlexibleTools
         public ICoreAPI coreapi;
         public ICoreClientAPI capi;
         public ICoreServerAPI sapi;
+        private FlexibleToolsConfig config;
         
         string blockToMatch;
 
@@ -73,6 +74,7 @@ namespace FlexibleTools
                             //world.BlockAccessor.BreakBlock(temppos, player, dropQuantityMultiplier);
                             world.BlockAccessor.SetBlock(0, temppos);
                             world.BlockAccessor.MarkBlockDirty(temppos);
+                            world.BlockAccessor.TriggerNeighbourBlockUpdate(temppos);
                             //world.BlockAccessor.TriggerNeighbourBlockUpdate(temppos);
                             player.InventoryManager.ActiveHotbarSlot.Itemstack.Collectible.DamageItem(world, player.Entity, player.InventoryManager.ActiveHotbarSlot, 1);                            
                             if (player.InventoryManager.ActiveHotbarSlot.Itemstack == null ||
@@ -117,6 +119,10 @@ namespace FlexibleTools
                     block.FirstCodePart() == "sand" ||
                     block.FirstCodePart() == "glacierice" ||
                     block.FirstCodePart() == "snowblock")
+            {
+                blockToMatch = block.FirstCodePart();
+            }
+            else if (block.Code.Path.Contains("log-grown") || block.Code.Path.Contains("logsection"))
             {
                 blockToMatch = block.FirstCodePart();
             }
@@ -224,6 +230,7 @@ namespace FlexibleTools
 
         private void AttemptVeinMine(IWorldAccessor world, Entity byEntity, ItemSlot itemslot, BlockSelection blockSel, float dropQuantityMultiplier = 1)
         {
+            if (api.Side != EnumAppSide.Server) return;
             // debug sanity checks
             if (world == null) capi.ShowChatMessage("World is null!");
             if (byEntity == null) capi.ShowChatMessage("Entity is null!");
@@ -233,41 +240,97 @@ namespace FlexibleTools
             Block block = world.BlockAccessor.GetBlock(blockSel.Position);
             string blockminedcode = block.Id == 0 ? "air" : block.Code.Path;
 
-//            if (coreapi.Side == EnumAppSide.Client) capi.ShowChatMessage($"BlockMined={blockminedcode} (might be air...)");
-//            if (coreapi.Side == EnumAppSide.Client) capi.ShowChatMessage($"BlockToMatch={blockToMatch}");
-
-//            int blocklimit = 256; // a good limit is... what 256 blocks? Obviously going to be a user-config option down the road
             IPlayer player = null;
 
             List<ItemStack>itemsToDrop = new List<ItemStack>(); // <String Code, Int Count>
             
             if (byEntity is EntityPlayer)
             {
-                player = coreapi.World.PlayerByUid(((EntityPlayer)byEntity).PlayerUID);
+                player = api.World.PlayerByUid(((EntityPlayer)byEntity).PlayerUID);
             }
             if (player == null)
             {
-                if (coreapi.Side == EnumAppSide.Client) api.World.Logger.VerboseDebug("Player isnt EntityPlayer; Player is null!");
+                api.World.Logger.VerboseDebug("FlexibleTools: Worldeater Player isnt EntityPlayer; Player is null!");
                 return;
             }
             ItemStack[] blockDrops;
+            bool istree = false;
+            string treeGroupCode = string.Empty;
+            int savedLimit = config.WorldEaterVeinMineLimit;
+            if (blockToMatch.Contains("log"))
+            {
+                istree = true;
+                treeGroupCode = block.Attributes["treeFellingGroupCode"].AsString(null); // the type of wood, oak, birch, etc.
+                // leaves are 0oak, 1oak, 2oak, etc, for reasons passing understanding
+                if (treeGroupCode != null)
+                    config.WorldEaterVeinMineLimit = 2048;
+                else
+                    istree = false;
+            }
 
             List<BlockPos> blocksToMine = new List<BlockPos>();
-            blocksToMine.Clear();
+            List<BlockPos> blocksToCheck = new List<BlockPos>();
 
+            blocksToCheck.Add(blockSel.Position);
+            blocksToMine.Add(blockSel.Position);
+
+            while (blocksToCheck.Count > 0 && blocksToMine.Count < config.WorldEaterVeinMineLimit)
+            {
+                List<BlockPos> blockstoadd = new List<BlockPos>();
+
+                foreach (BlockPos pos in blocksToCheck)
+                {
+                    BlockPos start = pos.AddCopy(-1, -1, -1);
+                    BlockPos end = pos.AddCopy(1, 1, 1);
+                    world.BlockAccessor.WalkBlocks(start, end, delegate(Block dblock,  int x, int y, int z)
+                    {                        
+                        if (dblock.BlockId != 0)
+                        {
+                            BlockPos bcheck = new BlockPos(x, y, z, 0);
+                            if (istree)
+                            {
+                                // we're cutting a tree down, check the treeFellingGroupCode 
+                                // this should get logs AND leaves...
+                                if (dblock.Attributes != null && dblock.Attributes["treeFellingGroupCode"].Exists
+                                    && dblock.Attributes["treeFellingGroupCode"].AsString().Contains(treeGroupCode))
+                                {
+                                    if (!blocksToMine.Contains(bcheck))
+                                    {
+                                        blockstoadd.Add(bcheck);
+                                        blocksToMine.Add(bcheck);
+                                    }
+                                }
+                            }
+                            else if (dblock.Code.Path.Contains(blockToMatch))
+                            {
+                                if (!blocksToMine.Contains(bcheck))
+                                {
+                                    blockstoadd.Add(bcheck);
+                                    blocksToMine.Add(bcheck);
+                                }
+                            }
+                        }
+                    },false);
+                }
+                blocksToCheck.Clear();
+                if (blockstoadd.Count > 0 && blocksToMine.Count < config.WorldEaterVeinMineLimit) { blocksToCheck.AddRange(blockstoadd); }
+                blockstoadd.Clear();
+            }
+            blocksToCheck.Clear();
+            config.WorldEaterVeinMineLimit = savedLimit;
             // walk the block area around the player!
             // does NOT actually spider search around as that would consume FAR more resources.
-            world.BlockAccessor.WalkBlocks(blockSel.Position.AddCopy(-24, -3, -24), blockSel.Position.AddCopy(24, 3, 24), delegate(Block dblock, int x, int y, int z)
-            {
-                if (dblock.Id != 0)
-                {
-                    if (dblock.Code.Path.Contains(blockToMatch))
-                    {    
-//                        if (coreapi.Side == EnumAppSide.Client) capi.ShowChatMessage($"Adding Block at: {dblockPos}");
-                        blocksToMine.Add(new BlockPos(x, y, z, 0));
-                    }
-                }
-            }, false);
+//            world.BlockAccessor.WalkBlocks(blockSel.Position.AddCopy(-24, -3, -24), blockSel.Position.AddCopy(24, 3, 24), delegate(Block dblock, int x, int y, int z)
+//            {
+//                if (dblock.Id != 0)
+//                {
+//                    if (dblock.Code.Path.Contains(blockToMatch))
+//                    {    
+////                        if (coreapi.Side == EnumAppSide.Client) capi.ShowChatMessage($"Adding Block at: {dblockPos}");
+//                        blocksToMine.Add(new BlockPos(x, y, z, 0));
+//                    }
+//                }
+//            }, false);
 
 //            if (api.Side == EnumAppSide.Client) capi.ShowChatMessage($"Found {blocksToMine.Count} blocks in vein.");
 
@@ -341,11 +404,13 @@ namespace FlexibleTools
         {
             return slot.Itemstack.Attributes.GetInt("toolMode", 0);
         }
+        
 
         public override void OnLoaded(ICoreAPI api)
         {
             base.OnLoaded(api);
-            coreapi = api;
+            coreapi = api;            
+
             if (api.Side == EnumAppSide.Client)
             {
                 capi = api as ICoreClientAPI;
@@ -353,6 +418,7 @@ namespace FlexibleTools
             else
             {
                 sapi = api as ICoreServerAPI;
+                config = api.ModLoader.GetModSystem<FlexibleToolsMod>(true).ToolsConfig;
             }
 
 

@@ -5,6 +5,7 @@ using Vintagestory.API.Client;
 using Vintagestory.API.Server;
 using Vintagestory.API.Common.Entities;
 using Vintagestory.API.MathTools;
+using Vintagestory.API.Config;
 
 namespace FlexibleTools
 {
@@ -29,6 +30,7 @@ namespace FlexibleTools
 
         public override bool OnBlockBrokenWith(IWorldAccessor world, Entity byEntity, ItemSlot itemslot, BlockSelection blockSel, float dropQuantityMultiplier = 1)
         {
+            if (api.Side == EnumAppSide.Client) return true;
             if (!isRock)
             {
                 return base.OnBlockBrokenWith(world, byEntity, itemslot, blockSel, dropQuantityMultiplier);
@@ -38,24 +40,20 @@ namespace FlexibleTools
             {
                 IPlayer player = world.PlayerByUid((byEntity as EntityPlayer).PlayerUID);
                 if (!player.Entity.World.Claims.TryAccess(player, blockSel.Position, EnumBlockAccessFlags.BuildOrBreak)) // honor land claims
-                {
-                    itemslot.MarkDirty();
+                {                    
                     return false;
                 }
                 List<string> rockTypes = new List<string>();
                 rockTypes = RockSniff(player, world, blockSel);
                 if (rockTypes.Count == 0)
                 {
-                    if (api.Side == EnumAppSide.Client) capi.ShowChatMessage("Oddly, There are no rocks under you...");
+                    sapi.SendMessage(player, 0, "Oddly, There are no rocks under you...", EnumChatType.OwnMessage);                    
                     return true;
                 }
-                if (api.Side == EnumAppSide.Client) capi.ShowChatMessage("Rock Found:");
+                sapi.SendMessage(player, 0, "RockSniffer Found:", EnumChatType.OwnMessage);                
                 foreach (string rtype in rockTypes)
                 {
-                    if (api.Side == EnumAppSide.Client)
-                    {
-                        capi.ShowChatMessage(rtype);
-                    }
+                    sapi.SendMessage(player, 0, rtype, EnumChatType.OwnMessage);
                 }
             }
             return base.OnBlockBrokenWith(world, byEntity, itemslot, blockSel, dropQuantityMultiplier); 
@@ -71,36 +69,64 @@ namespace FlexibleTools
             Block curBlock;
             BlockPos blockpos = new BlockPos(blockSel.Position.X, blockSel.Position.Y, blockSel.Position.Z, 0);
 
+            bool reportfluid = config.RockSnifferReportsFluid;
+            bool reportore = config.RockSnifferReportsOres;
+
+            reportore = true; // DEBUG ONLY
+
             for (int offset = 1; offset < blockSel.Position.Y; offset++)
             {
                 BlockPos temppos = blockSel.Position.DownCopy(offset);
-                curBlock = world.BlockAccessor.GetBlock(temppos);
-                if (curBlock.FirstCodePart() == "rock" || curBlock.FirstCodePart() == "lava" || curBlock.FirstCodePart() == "oil")
-                {
-                    string codePart = curBlock.FirstCodePart() == "rock" ? curBlock.LastCodePart() : curBlock.FirstCodePart();
 
-                    if (!rockTypes.Contains(codePart))
+                if (reportfluid)
+                {
+                    curBlock = world.BlockAccessor.GetBlock(temppos, 3); // grab the fluid, if not present grab the rock.
+                }
+                else
+                {
+                    curBlock = world.BlockAccessor.GetBlock(temppos, 0);
+                }
+                if (reportore && curBlock.FirstCodePart() == "ore")
+                {
+                    string oretype = new ItemStack(curBlock, 1).GetName();
+                    if (!rockTypes.Contains(oretype)) rockTypes.Add(oretype);
+                }
+                else
+                {
+                    if (reportfluid && curBlock.IsLiquid())
+                    {                        
+                        string fluidtype = curBlock.FirstCodePart();
+                        fluidtype = char.ToUpper(fluidtype[0]) + fluidtype.Substring(1);
+
+                        if (!rockTypes.Contains(fluidtype)) { rockTypes.Add(fluidtype); }
+
+                        continue;
+                    }
+                    if (curBlock.FirstCodePart().Contains("rock") && !curBlock.FirstCodePart().Contains("cracked")) // it is rock
                     {
-                        rockTypes.Add(codePart);
+                        string rocktype = new ItemStack(curBlock, 1).GetName();
+                        if (!rockTypes.Contains(rocktype)) rockTypes.Add(rocktype);
                     }
                 }
             }
             return rockTypes;
         }
 
+        private FlexibleToolsConfig config;
 
         public override void OnLoaded(ICoreAPI api)
         {
             base.OnLoaded(api);
-            this.api = api;
+            this.api = api;            
             if (api.Side == EnumAppSide.Server)
             {
                 sapi = api as ICoreServerAPI;
+                config = api.ModLoader.GetModSystem<FlexibleToolsMod>(true).ToolsConfig;
             }
             else
             {
                 capi = api as ICoreClientAPI;
             }
-        }
+        }                
     }
 }

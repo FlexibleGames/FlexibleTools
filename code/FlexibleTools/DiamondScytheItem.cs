@@ -28,6 +28,7 @@ namespace FlexibleTools
 
         private int breakQuantity = 9;
         private int breakradius = 1;
+        private bool doRemove = false;
 
         public int MultiBreakQuantity
         {
@@ -39,6 +40,7 @@ namespace FlexibleTools
             base.OnLoaded(api);
             this.allowedPrefixes = this.Attributes["codePrefixes"].AsArray<string>(null, null);
             this.disallowedSuffixes = this.Attributes["disallowedSuffixes"].AsArray<string>(null, null);
+            capi = api as ICoreClientAPI;
             this.skillItems = new SkillItem[]
             {
                 new SkillItem
@@ -60,8 +62,25 @@ namespace FlexibleTools
                 {
                     Code = new AssetLocation("radius four"),
                     Name = "9x9"
-                }.WithLetterIcon(api as ICoreClientAPI, "9")
+                }.WithLetterIcon(api as ICoreClientAPI, "9"),
+                new SkillItem
+                {
+                    Code = new AssetLocation("trim grass"),
+                    Name = Lang.Get("Trim grass", Array.Empty<object>())
+                },
+                new SkillItem
+                {
+                    Code = new AssetLocation("remove grass"),
+                    Name = Lang.Get("Remove grass", Array.Empty<object>())
+                },
             };
+            if (capi != null)
+            {
+                skillItems[4].WithIcon(capi, capi.Gui.LoadSvgWithPadding(new AssetLocation("game:textures/icons/scythetrim.svg"), 48, 48, 5, new int?(-1)));
+                skillItems[5].WithIcon(capi, capi.Gui.LoadSvgWithPadding(new AssetLocation("game:textures/icons/scytheremove.svg"), 48, 48, 5, new int?(-1)));
+                skillItems[4].TexturePremultipliedAlpha = false;
+                skillItems[5].TexturePremultipliedAlpha = false;
+            }
         }
 
         public bool CanMultiBreak(Block block)
@@ -95,50 +114,16 @@ namespace FlexibleTools
             EntityPlayer entityPlayer = byEntity as EntityPlayer;
             IPlayer player = (entityPlayer != null) ? entityPlayer.Player : null;
             if (!byEntity.World.Claims.TryAccess(player, blockSel.Position, EnumBlockAccessFlags.BuildOrBreak))
-            {
-                slot.MarkDirty();
+            {                
                 return;
             }
             byEntity.Attributes.SetBool("didBreakBlocks", false);
             byEntity.Attributes.SetBool("didPlayScytheSound", false);
             handling = EnumHandHandling.PreventDefault;
         }
-        /// <summary>
-        /// To be honest I have no idea what this function does other than process the Scythe sound and animation over time steps...
-        /// </summary>
-        /// <param name="secondsPassed"></param>
-        /// <param name="slot"></param>
-        /// <param name="byEntity"></param>
-        /// <param name="blockSelection"></param>
-        /// <param name="entitySel"></param>
-        /// <returns></returns>
+
         public override bool OnHeldAttackStep(float secondsPassed, ItemSlot slot, EntityAgent byEntity, BlockSelection blockSelection, EntitySelection entitySel)
         {
-            if (byEntity.World.Side == EnumAppSide.Client)
-            {
-                ModelTransform modelTransform = new ModelTransform();
-                modelTransform.EnsureDefaultValues();
-                float num = secondsPassed / 1.35f;
-                float num2 = (float)Easings.EaseOutBack((double)Math.Min(num * 2f, 1f));
-                float num3 = (float)Math.Sin(GameMath.Clamp(4.3982296401243044 * (double)(num - 0.5f), 0.0, 3.0));
-                modelTransform.Translation.X += Math.Min(0.2f, num * 3f);
-                modelTransform.Translation.Y -= Math.Min(0.75f, num * 3f);
-                modelTransform.Translation.Z -= Math.Min(1f, num * 3f);
-                modelTransform.ScaleXYZ += Math.Min(1f, num * 3f);
-                modelTransform.Origin.X -= Math.Min(0.75f, num * 3f);
-                modelTransform.Rotation.X = -Math.Min(30f, num * 30f) + num2 * 30f + num3 * 120f;
-                modelTransform.Rotation.Z = -num2 * 110f;
-                if (secondsPassed > 1.75f)
-                {
-                    float num4 = 2f * (secondsPassed - 1.75f);
-                    modelTransform.Rotation.Z += num4 * 140f;
-                    modelTransform.Rotation.X /= 1f + num4 * 10f;
-                    modelTransform.Translation.X -= num4 * 0.4f;
-                    modelTransform.Translation.Y += num4 * 2f / 0.75f;
-                    modelTransform.Translation.Z += num4 * 2f;
-                }
-                byEntity.Controls.UsingHeldItemTransformBefore = modelTransform;
-            }
             this.performActions(secondsPassed, byEntity, slot, blockSelection);
             return this.api.Side == EnumAppSide.Server || secondsPassed < 2f;
         }
@@ -151,7 +136,8 @@ namespace FlexibleTools
             if (blockSelection == null)
             {
                 return;
-            }
+            }            
+
             Block block = this.api.World.BlockAccessor.GetBlock(blockSelection.Position);
             EntityPlayer entityPlayer = byEntity as EntityPlayer;
             IPlayer player = (entityPlayer != null) ? entityPlayer.Player : null;
@@ -164,7 +150,8 @@ namespace FlexibleTools
             if (flag && secondsPassed > 1.05f && !byEntity.Attributes.GetBool("didBreakBlocks", false))
             {
                 if (byEntity.World.Side == EnumAppSide.Server && byEntity.World.Claims.TryAccess(player, blockSelection.Position, EnumBlockAccessFlags.BuildOrBreak))
-                {                   
+                {
+                    this.doRemove = slot.Itemstack.Attributes.GetBool("doRemove", false);
                     this.OnBlockBrokenWith(byEntity.World, byEntity, slot, blockSelection, 1f);
                 }
                 byEntity.Attributes.SetBool("didBreakBlocks", true);
@@ -268,6 +255,57 @@ namespace FlexibleTools
         }
         protected void breakMultiBlock(BlockPos pos, IPlayer plr)
         {
+            if (!this.doRemove)
+            {
+                Block block = api.World.BlockAccessor.GetBlock(pos);                
+
+                if (block.Code.FirstCodePart().Contains("berrybush"))
+                {
+                    BlockEntityBerryBush bebb = api.World.BlockAccessor.GetBlockEntity<BlockEntityBerryBush>(pos);
+                    if (bebb.IsRipe())
+                    {
+                        ItemStack berrydrops = null;
+                        BlockBehaviorHarvestable bbh = api.World.BlockAccessor.GetBlock(pos).GetBehavior<BlockBehaviorHarvestable>();
+                        if (bbh != null)
+                        {
+                            float droprate = 1f;
+                            droprate *= plr.Entity.Stats.GetBlended("forageDropRate");
+                            berrydrops = bbh.harvestedStack.GetNextItemStack(droprate);
+                        }                         
+                        if (berrydrops != null)
+                        {
+                            api.World.SpawnItemEntity(berrydrops, pos.ToVec3d(), null);
+                        }
+                        Block emptybush = api.World.GetBlock(block.CodeWithVariant("state", "empty"));
+                        if (emptybush != null)
+                        {
+                            api.World.BlockAccessor.SetBlock(emptybush.BlockId, pos);
+                            //api.World.BlockAccessor.MarkBlockDirty(pos);
+                        }
+                    }                    
+                    bebb.Pruned = true;
+                    bebb.LastPrunedTotalDays = api.World.Calendar.TotalDays;
+                    bebb.MarkDirty(true, null);
+                    api.World.BlockAccessor.MarkBlockDirty(pos);
+                    return;
+                }
+
+                Block trimmedblock = api.World.GetBlock(block.CodeWithVariant("tallgrass", "eaten"));
+                if (block == trimmedblock) return;
+
+                if (trimmedblock != null)
+                {
+                    api.World.BlockAccessor.BreakBlock(pos, plr, 2f);
+                    api.World.BlockAccessor.MarkBlockDirty(pos);
+                    api.World.BlockAccessor.SetBlock(trimmedblock.BlockId, pos);
+                    BlockEntityTransient be = api.World.BlockAccessor.GetBlockEntity(pos) as BlockEntityTransient;
+                    if (be != null)
+                    {
+                        be.ConvertToOverride = block.Code.ToShortString();
+                    }
+                    return;
+                }
+            }
             this.api.World.BlockAccessor.BreakBlock(pos, plr, 1f);
             this.api.World.BlockAccessor.MarkBlockDirty(pos);
         }
@@ -288,16 +326,20 @@ namespace FlexibleTools
         /// <param name="toolMode">Tool mode clicked</param>
         public override void SetToolMode(ItemSlot slot, IPlayer byPlayer, BlockSelection blockSelection, int toolMode)
         {
-            slot.Itemstack.Attributes.SetInt("toolMode", toolMode);
+            if (toolMode < 4) slot.Itemstack.Attributes.SetInt("toolMode", toolMode);
+            else slot.Itemstack.Attributes.SetBool("doRemove", toolMode != 4);
+
             switch (toolMode)
             {
                 case 0: this.breakQuantity = 9; break;
                 case 1: this.breakQuantity = 25; break;
                 case 2: this.breakQuantity = 49; break;
                 case 3: this.breakQuantity = 81; break;
-                default: this.breakQuantity = 9; break;
+                case 4: this.doRemove = false; break;
+                case 5: this.doRemove = true; break;
+                default: this.breakQuantity = 9; doRemove = false; break;
             }
-            this.breakradius = toolMode + 1;
+            this.breakradius = toolMode < 4 ? toolMode + 1 : breakradius;
         }
         public override void OnUnloaded(ICoreAPI api)
         {

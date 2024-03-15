@@ -173,8 +173,13 @@ namespace FlexibleTools
     /// </summary>
     public class TorcMagnetBehavior : EntityBehavior
     {
+        private FlexibleToolsConfig config;
         public TorcMagnetBehavior(Entity entity) : base(entity)
         {
+            if (entity != null && entity.Api.Side == EnumAppSide.Server)
+            {
+                config = this.entity.Api.ModLoader.GetModSystem<FlexibleToolsMod>(true)?.ToolsConfig;
+            }
         }
 
         public override void OnGameTick(float deltaTime)
@@ -218,7 +223,7 @@ namespace FlexibleTools
             }
 
             this.tmp.Set(this.entity.ServerPos.X, this.entity.ServerPos.Y + (double)this.entity.SelectionBox.Y1 + (double)(this.entity.SelectionBox.Y2 / 2f), this.entity.ServerPos.Z);
-            Entity[] entitiesAround = this.entity.World.GetEntitiesAround(this.tmp, radius, radius, new ActionConsumable<Entity>(this.entityMatcher));
+            Entity[] entitiesAround = this.entity.World.GetEntitiesAround(this.tmp, config.MagnetPickupRadius, config.MagnetPickupRadius, new ActionConsumable<Entity>(this.entityMatcher));
             if (entitiesAround.Length == 0)
             {
                 this.unconsumedDeltaTime = 0f;
@@ -238,6 +243,7 @@ namespace FlexibleTools
                     }
                     if (entity != null)
                     {
+                        if (config.MagnetBlackList.Count > 0 && config.MagnetBlackList.Contains(entity.Code.Path)) continue;
                         entity.ServerPos.SetPos(entityPlayer.Pos);
                     }
                     if (i > this.itemsPerSecond) break;
@@ -250,6 +256,8 @@ namespace FlexibleTools
 
         private bool entityMatcher(Entity foundEntity)
         {
+            if (config.MagnetBlackList.Count > 0 && config.MagnetBlackList.Contains(foundEntity.Code.Path)) return false;
+
             return foundEntity.CanCollect(this.entity);
         }
 
@@ -259,8 +267,8 @@ namespace FlexibleTools
         }
         private int waitTicks;
         private Vec3d tmp = new Vec3d();
-        private float radius = 4f;
+        private float radius = 5f;
         private float unconsumedDeltaTime;
-        private float itemsPerSecond = 23f;
+        private float itemsPerSecond = 23f; // this is limited because the player is limited on how many things it can pick up per second.
     }
 }

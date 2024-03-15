@@ -11,6 +11,18 @@ namespace FlexibleTools
         ICoreAPI api;
         ICoreServerAPI sapi;
         ICoreClientAPI capi;
+        public FlexibleToolsConfig ToolsConfig
+        {   
+            get
+            {
+                return (FlexibleToolsConfig)this.api.ObjectCache["flexibletoolsconfig.json"];
+            }
+            set
+            {
+                this.api.ObjectCache.Add("flexibletoolsconfig.json", value);
+            }
+        }
+
 
         public override void Start(ICoreAPI api)
         {
@@ -27,6 +39,24 @@ namespace FlexibleTools
         {
             base.StartServerSide(api);
             sapi = api;
+            FlexibleToolsConfig flexibleToolsConfig = null;
+            try
+            {
+                flexibleToolsConfig = api.LoadModConfig<FlexibleToolsConfig>("flexibletoolsconfig.json");
+            }
+            catch (Exception)
+            {
+                api.Logger.Warning("FlexibleTools: Config Exception, possibly missing or has a typo. Rebuilding...");
+            }
+            if (flexibleToolsConfig == null)
+            {
+                flexibleToolsConfig = new FlexibleToolsConfig();
+                flexibleToolsConfig.MagnetBlackList.Add("gear-temporal");
+                api.StoreModConfig<FlexibleToolsConfig>(flexibleToolsConfig, "flexibletoolsconfig.json");
+
+            }
+            ToolsConfig = flexibleToolsConfig;
+
             sapi.Event.PlayerNowPlaying += AddMagnetBehavior;
         }
 
