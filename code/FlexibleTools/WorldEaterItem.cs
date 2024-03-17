@@ -122,7 +122,7 @@ namespace FlexibleTools
             {
                 blockToMatch = block.FirstCodePart();
             }
-            else if (block.Code.Path.Contains("log-grown") || block.Code.Path.Contains("logsection"))
+            else if (block.Code.Path.Contains("log-grown") || block.Code.Path.Contains("logsection-grown"))
             {
                 blockToMatch = block.FirstCodePart();
             }

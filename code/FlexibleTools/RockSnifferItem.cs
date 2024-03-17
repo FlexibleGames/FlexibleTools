@@ -72,7 +72,7 @@ namespace FlexibleTools
             bool reportfluid = config.RockSnifferReportsFluid;
             bool reportore = config.RockSnifferReportsOres;
 
-            reportore = true; // DEBUG ONLY
+            //reportore = true; // DEBUG ONLY
 
             for (int offset = 1; offset < blockSel.Position.Y; offset++)
             {
