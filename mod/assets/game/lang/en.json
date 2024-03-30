@@ -10,5 +10,7 @@
 	"item-torcmagnet": "Item Magnet",
 	"itemdesc-torcmagnet": "A Neck-worn Magnet that pulls items on the ground to you. Works in a radius of 4 around the player wearing it. Take it off your character to disable the effect.",
 	"item-rocksniffer-*": "Rock Sniffer",
-	"itemdesc-rocksniffer-*": "Use on stone to get a report of the rock-types directly below that square. Ignores and does not report ores. Great for finding those rare Kimberlite deposits!"
+	"itemdesc-rocksniffer-*": "Use on stone to get a report of the rock-types directly below that square. Ignores and does not report ores. Great for finding those rare Kimberlite deposits!",
+
+	"gui-toggle-hotkey": "Toggle Magnet On/Off while wearing it."
 }

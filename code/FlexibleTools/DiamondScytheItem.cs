@@ -33,7 +33,7 @@ namespace FlexibleTools
         public int MultiBreakQuantity
         {
             get { return breakQuantity;  }
-        }
+        }        
 
         public override void OnLoaded(ICoreAPI api)
         {

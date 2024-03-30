@@ -1,18 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Vintagestory.API;
 using Vintagestory.API.Client;
 using Vintagestory.API.Server;
 using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
-using Vintagestory.API.Config;
 using Vintagestory.API.MathTools;
 using Vintagestory.API.Util;
-using Cairo;
 using Vintagestory.API.Datastructures;
-using Vintagestory.GameContent;
-using Newtonsoft.Json;
+using System.Text;
 
 namespace FlexibleTools
 {
@@ -46,6 +42,25 @@ namespace FlexibleTools
             }
 
             base.OnBeforeRender(capi, itemstack, target, ref renderinfo);
+        }
+
+        public override void GetHeldItemInfo(ItemSlot inSlot, StringBuilder dsc, IWorldAccessor world, bool withDebugInfo)
+        {
+            base.GetHeldItemInfo(inSlot, dsc, world, withDebugInfo);
+            bool enabled = (bool)inSlot?.Itemstack?.Attributes?.GetBool("enabled");
+            dsc.AppendLine(enabled ? "Enabled" : "Disabled");
+        }
+
+        public override string GetHeldItemName(ItemStack itemStack)
+        {
+            if (itemStack != null)
+            {
+                string basename = base.GetHeldItemName(itemStack);
+                bool enabled = itemStack.Attributes.GetBool("enabled");
+                basename += " " + (enabled ? "Enabled":"Disabled");
+                return basename;
+            }
+            return base.GetHeldItemName(itemStack);
         }
 
         private MeshData genMeshRef(ICoreClientAPI capi, ItemStack itemstack, ItemRenderInfo renderinfo)
@@ -221,6 +236,10 @@ namespace FlexibleTools
             {
                 return;
             }
+            ItemStack magnet = ownInventory[(int)EnumCharacterDressType.Neck].Itemstack;
+            bool enabled = magnet.Attributes.GetAsBool("enabled");
+            
+            if (!enabled) return;
 
             this.tmp.Set(this.entity.ServerPos.X, this.entity.ServerPos.Y + (double)this.entity.SelectionBox.Y1 + (double)(this.entity.SelectionBox.Y2 / 2f), this.entity.ServerPos.Z);
             Entity[] entitiesAround = this.entity.World.GetEntitiesAround(this.tmp, config.MagnetPickupRadius, config.MagnetPickupRadius, new ActionConsumable<Entity>(this.entityMatcher));
@@ -242,8 +261,7 @@ namespace FlexibleTools
                         entity = entitiesAround[i];                        
                     }
                     if (entity != null)
-                    {
-                        if (config.MagnetBlackList.Count > 0 && config.MagnetBlackList.Contains(entity.Code.Path)) continue;
+                    {                        
                         entity.ServerPos.SetPos(entityPlayer.Pos);
                     }
                     if (i > this.itemsPerSecond) break;
@@ -255,8 +273,17 @@ namespace FlexibleTools
         }
 
         private bool entityMatcher(Entity foundEntity)
-        {
-            if (config.MagnetBlackList.Count > 0 && config.MagnetBlackList.Contains(foundEntity.Code.Path)) return false;
+        {            
+            if (foundEntity is EntityItem)
+            {
+                if (config.MagnetBlackList.Count > 0)
+                {
+                    if (config.MagnetBlackList.Contains((foundEntity as EntityItem).Itemstack.Collectible.Code.Path))
+                    {
+                        return false;
+                    }
+                }
+            }
 
             return foundEntity.CanCollect(this.entity);
         }

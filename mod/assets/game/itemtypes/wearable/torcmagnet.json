@@ -1,47 +1,47 @@
 {
-	code: "torcmagnet",
-	class: "TorcMagnetItem",
-	shape: { base: "game:entity/humanoid/seraph/clothing/neck/torcmagnet" },	
-	storageFlags: 128,
-	attributesByType: {
+	"code": "torcmagnet",
+	"class": "TorcMagnetItem",
+	"shape": { "base": "game:entity/humanoid/seraph/clothing/neck/torcmagnet" },
+	"storageFlags": 128,
+	"attributesByType": {
 		"*": {
-			wearableAttachment: true,
-			clothescategory: "neck",
-			warmth: 0
+			"wearableAttachment": true,
+			"clothescategory": "neck",
+			"warmth": 0
 		}
 	},
-	texturesByType: {
+	"texturesByType": {
 		"*": {
-			"seraph": { base: "block/transparent" }
+			"seraph": { "base": "block/transparent" }
 		}
 	},
-	creativeinventory: { "general": ["*"], "items": ["*"], "clothing": ["*"] },
-	renderAlphaTest: 0.25,
-	fpHandTransform: {
-		translation: { x: 0.2, y: -2.5, z: -0.9 },
-		rotation: { x: -2, y: 31, z: -46 },
-		scale: 4.09
+	"creativeinventory": { "general": ["*"], "items": ["*"], "clothing": ["*"] },
+	"renderAlphaTest": 0.25,
+	"fpHandTransform": {
+		"translation": { "x": 0.2, "y": -2.5, "z": -0.9 },
+		"rotation": { "x": -2, "y": 31, "z": -46 },
+		"scale": 4.09
 	},
-	tpHandTransform: {
-		translation: { x: -0.6, y: -2.1, z: -0.7 },
-		rotation: { x: -21, y: -180, z: 25 },
-		origin: { x: 0.5, y: 1.4, z: 0.5 },
-		scale: 0.71
+	"tpHandTransform": {
+		"translation": { "x": -0.6, "y": -2.1, "z": -0.7 },
+		"rotation": { "x": -21, "y": -180, "z": 25 },
+		"origin": { "x": 0.5, "y": 1.4, "z": 0.5 },
+		"scale": 0.71
 	},
-	guiTransformByType: {
+	"guiTransformByType": {
 		"*": {
-			translation: { x: 0, y: 0, z: 0 },
-			rotation: { x: 174, y: -128, z: 6 },
-			origin: { x: 0.54, y: 1.5499, z: 0.54 },
-			scale: 3.95
+			"translation": { "x": 0, "y": 0, "z": 0 },
+			"rotation": { "x": 174, "y": -128, "z": 6 },
+			"origin": { "x": 0.54, "y": 1.5499, "z": 0.54 },
+			"scale": 3.95
 		}
 	},
-	groundTransformByType: {
+	"groundTransformByType": {
 		"*": {
-			translation: { x: 0, y: 0.05, z: 0 },
-			rotation: { x: 0, y: 0, z: -180 },
-			origin: { x: 0.5, y: 1.5, z: 0.5 },
-			scale: 3.06
+			"translation": { "x": 0, "y": 0.05, "z": 0 },
+			"rotation": { "x": 0, "y": 0, "z": -180 },
+			"origin": { "x": 0.5, "y": 1.5, "z": 0.5 },
+			"scale": 3.06
 		}
 	}
 }
