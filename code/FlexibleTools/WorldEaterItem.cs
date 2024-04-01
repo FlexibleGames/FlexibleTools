@@ -118,7 +118,8 @@ namespace FlexibleTools
                     block.FirstCodePart() == "gravel" || 
                     block.FirstCodePart() == "sand" ||
                     block.FirstCodePart() == "glacierice" ||
-                    block.FirstCodePart() == "snowblock")
+                    block.FirstCodePart() == "snowblock" ||
+                    block.FirstCodePart() == "saltpeter")
             {
                 blockToMatch = block.FirstCodePart();
             }
@@ -263,7 +264,7 @@ namespace FlexibleTools
                 treeGroupCode = block.Attributes["treeFellingGroupCode"].AsString(null); // the type of wood, oak, birch, etc.
                 // leaves are 0oak, 1oak, 2oak, etc, for reasons passing understanding
                 if (treeGroupCode != null)
-                    config.WorldEaterVeinMineLimit = 2048;
+                    config.WorldEaterVeinMineLimit = 1024;
                 else
                     istree = false;
             }
@@ -290,9 +291,10 @@ namespace FlexibleTools
                             if (istree)
                             {
                                 // we're cutting a tree down, check the treeFellingGroupCode 
-                                // this should get logs AND leaves...
+                                // this should now get only logs...
                                 if (dblock.Attributes != null && dblock.Attributes["treeFellingGroupCode"].Exists
-                                    && dblock.Attributes["treeFellingGroupCode"].AsString().Contains(treeGroupCode))
+                                    && dblock.Attributes["treeFellingGroupCode"].AsString().Contains(treeGroupCode)
+                                    && !dblock.Code.Path.Contains("leaves"))
                                 {
                                     if (!blocksToMine.Contains(bcheck))
                                     {
@@ -318,21 +320,6 @@ namespace FlexibleTools
             }
             blocksToCheck.Clear();
             config.WorldEaterVeinMineLimit = savedLimit;
-            // walk the block area around the player!
-            // does NOT actually spider search around as that would consume FAR more resources.
-//            world.BlockAccessor.WalkBlocks(blockSel.Position.AddCopy(-24, -3, -24), blockSel.Position.AddCopy(24, 3, 24), delegate(Block dblock, int x, int y, int z)
-//            {
-//                if (dblock.Id != 0)
-//                {
-//                    if (dblock.Code.Path.Contains(blockToMatch))
-//                    {    
-////                        if (coreapi.Side == EnumAppSide.Client) capi.ShowChatMessage($"Adding Block at: {dblockPos}");
-//                        blocksToMine.Add(new BlockPos(x, y, z, 0));
-//                    }
-//                }
-//            }, false);
-
-//            if (api.Side == EnumAppSide.Client) capi.ShowChatMessage($"Found {blocksToMine.Count} blocks in vein.");
 
             if (blocksToMine.Count > 0)
             {                
@@ -341,7 +328,6 @@ namespace FlexibleTools
                     blockDrops = world.BlockAccessor.GetBlock(blockPos).GetDrops(world, blockPos, player, dropQuantityMultiplier);
                     if (blockDrops == null)
                     {
- //                       if (coreapi.Side == EnumAppSide.Client) capi.ShowChatMessage($"Block Drops Null for: {world.BlockAccessor.GetBlock(blockPos).Code.Path} at pos: {blockPos}");
                         continue;
                     }
                     if (blockDrops.Length > 0)
@@ -354,7 +340,7 @@ namespace FlexibleTools
                     coreapi.World.BlockAccessor.SetBlock(0, blockPos); // we've got the drops, set to AIR
                     coreapi.World.BlockAccessor.MarkBlockDirty(blockPos);
                     world.BlockAccessor.TriggerNeighbourBlockUpdate(blockPos);                    
-                    itemslot.Itemstack.Collectible.DamageItem(world, byEntity, itemslot, 1); // damage the pick like you mined the block
+                    //itemslot.Itemstack.Collectible.DamageItem(world, byEntity, itemslot, 1); // damage the pick like you mined the block
                     player.InventoryManager.ActiveHotbarSlot.Itemstack.Collectible.DamageItem(world, player.Entity, player.InventoryManager.ActiveHotbarSlot, 1);
                     if (player.InventoryManager.ActiveHotbarSlot.Itemstack == null ||
                         (player.InventoryManager.ActiveHotbarSlot.Itemstack.Item != null &&
@@ -388,11 +374,6 @@ namespace FlexibleTools
                 blocksToMine.Clear();
                 itemsToDrop.Clear();
             }
-            else
-            {
- //               if (api.Side == EnumAppSide.Client) capi.ShowChatMessage("VeinMiner: Only " + blocksToMine.Count + " Blocks found to veinmine.");
-            }
-           
         }
 
         public override void SetToolMode(ItemSlot slot, IPlayer byPlayer, BlockSelection blockSel, int toolMode)

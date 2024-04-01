@@ -19,7 +19,7 @@ namespace FlexibleTools
         {
             Block block = player.Entity.World.BlockAccessor.GetBlock(blockSel.Position);
             // normal rock in game is rock-{type}
-            if (block.FirstCodePart() == "rock")
+            if (block.FirstCodePart() == "rock" || block.FirstCodePart() == "crackedrock")
             {
                 isRock = true;
             }

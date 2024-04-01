@@ -283,9 +283,11 @@ namespace FlexibleTools
                         return false;
                     }
                 }
+                if (foundEntity == null || entity == null) return false;
+                return foundEntity.CanCollect(this.entity);
             }
 
-            return foundEntity.CanCollect(this.entity);
+            return false;
         }
 
         public override string PropertyName()

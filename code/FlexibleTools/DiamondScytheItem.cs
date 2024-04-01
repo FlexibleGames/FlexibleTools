@@ -104,9 +104,12 @@ namespace FlexibleTools
             }
             return false;
         }
+        
         public override void OnHeldAttackStart(ItemSlot slot, EntityAgent byEntity, BlockSelection blockSel, EntitySelection entitySel, ref EnumHandHandling handling)
         {
             base.OnHeldAttackStart(slot, byEntity, blockSel, entitySel, ref handling);
+            OnCollected(slot.Itemstack, byEntity);
+
             if (blockSel == null)
             {
                 return;
@@ -120,6 +123,23 @@ namespace FlexibleTools
             byEntity.Attributes.SetBool("didBreakBlocks", false);
             byEntity.Attributes.SetBool("didPlayScytheSound", false);
             handling = EnumHandHandling.PreventDefault;
+        }
+
+        public override void OnCollected(ItemStack stack, Entity entity)
+        {
+            base.OnCollected(stack, entity);
+
+            int tool_mode = stack.Attributes.GetInt("toolMode", 0);
+            doRemove = stack.Attributes.GetBool("doRemove");
+            switch (tool_mode)
+            {
+                case 0: this.breakQuantity = 9; break;
+                case 1: this.breakQuantity = 25; break;
+                case 2: this.breakQuantity = 49; break;
+                case 3: this.breakQuantity = 81; break;
+                default: this.breakQuantity = 9; break;
+            }
+            breakradius = tool_mode + 1;
         }
 
         public override bool OnHeldAttackStep(float secondsPassed, ItemSlot slot, EntityAgent byEntity, BlockSelection blockSelection, EntitySelection entitySel)
@@ -141,13 +161,13 @@ namespace FlexibleTools
             Block block = this.api.World.BlockAccessor.GetBlock(blockSelection.Position);
             EntityPlayer entityPlayer = byEntity as EntityPlayer;
             IPlayer player = (entityPlayer != null) ? entityPlayer.Player : null;
-            bool flag = this.CanMultiBreak(this.api.World.BlockAccessor.GetBlock(blockSelection.Position));
-            if (flag && secondsPassed > 0.75f && !byEntity.Attributes.GetBool("didPlayScytheSound", false))
+            bool harvestable = this.CanMultiBreak(this.api.World.BlockAccessor.GetBlock(blockSelection.Position));
+            if (harvestable && secondsPassed > 0.75f && !byEntity.Attributes.GetBool("didPlayScytheSound", false))
             {
                 this.api.World.PlaySoundAt(new AssetLocation("sounds/tool/scythe1"), byEntity, player, true, 16f, 1f);
                 byEntity.Attributes.SetBool("didPlayScytheSound", true);
             }
-            if (flag && secondsPassed > 1.05f && !byEntity.Attributes.GetBool("didBreakBlocks", false))
+            if (harvestable && secondsPassed > 1.05f && !byEntity.Attributes.GetBool("didBreakBlocks", false))
             {
                 if (byEntity.World.Side == EnumAppSide.Server && byEntity.World.Claims.TryAccess(player, blockSelection.Position, EnumBlockAccessFlags.BuildOrBreak))
                 {
@@ -317,6 +337,7 @@ namespace FlexibleTools
         {
             return this.skillItems;
         }
+
         /// <summary>
         /// This is where the meat of the multibreak is set. Hopefully the 9x9 won't cause lag.
         /// </summary>
