@@ -103,8 +103,8 @@ namespace FlexibleTools
         private bool OnToggleMagnet(KeyCombination t1)
         {
             IInventory ownInventory = capi.World.Player.InventoryManager.GetOwnInventory("character");
-            if (ownInventory[(int)EnumCharacterDressType.Neck].Itemstack != null
-                || ownInventory[(int)EnumCharacterDressType.Neck].Itemstack.Item.FirstCodePart() == "torcmagnet")
+            if (!ownInventory[(int)EnumCharacterDressType.Neck].Empty 
+                && ownInventory[(int)EnumCharacterDressType.Neck].Itemstack.Item.FirstCodePart() == "torcmagnet")
             {
                 ItemStack magnet = capi.World.Player.InventoryManager.GetOwnInventory("character")[(int)EnumCharacterDressType.Neck].Itemstack;
                 bool enabled = magnet.Attributes.GetAsBool("enabled");
