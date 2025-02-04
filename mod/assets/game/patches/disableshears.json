@@ -1,0 +1,18 @@
+[
+    {
+        "file": "game:itemtypes/tool/diamondshears.json",
+        "op": "addmerge",
+        "path": "/enabled",
+        "value": false,
+        "condition": { "when": "FlexibleTools_Shears_Enable", "isValue": "false" },
+        "side": "server"
+    },
+    {
+        "file": "game:recipes/grid/diamondshears.json",
+        "op": "addmerge",
+        "path": "/enabled",
+        "value": false,
+        "condition": { "when": "FlexibleTools_Shears_Enable", "isValue": "false" },
+        "side": "server"
+    }
+]

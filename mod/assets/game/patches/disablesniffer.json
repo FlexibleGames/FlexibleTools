@@ -1,0 +1,18 @@
+[
+    {
+        "file": "game:itemtypes/tool/rocksniffer.json",
+        "op": "addmerge",
+        "path": "/enabled",
+        "value": false,
+        "condition": { "when": "FlexibleTools_Sniffer_Enable", "isValue": "false" },
+        "side": "server"
+    },
+    {
+        "file": "game:recipes/grid/rocksniffer.json",
+        "op": "addmerge",
+        "path": "/enabled",
+        "value": false,
+        "condition": { "when": "FlexibleTools_Sniffer_Enable", "isValue": "false" },
+        "side": "server"
+    }
+]
