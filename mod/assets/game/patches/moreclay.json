@@ -1,0 +1,5 @@
+[
+	{ "file": "game:worldgen/deposits/soil/clay.json", "side": "server", "op": "replace", "path": "/0/triesPerChunk", "value": 0.03 },
+	{ "file": "game:worldgen/deposits/soil/clay.json", "side": "server", "op": "replace", "path": "/1/triesPerChunk", "value": 0.015 },
+	{ "file": "game:worldgen/deposits/soil/clay.json", "side": "server", "op": "replace", "path": "/3/triesPerChunk", "value": 0.015 }
+]

@@ -1,0 +1,3 @@
+[
+	{ "file": "game:entities/land/drifter.json", "side": "server", "op": "remove", "path": "/server/behaviors/8/aitasks/3" }
+]
