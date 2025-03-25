@@ -127,6 +127,13 @@ namespace FlexibleTools
             {
                 blockToMatch = block.FirstCodePart();
             }
+            else if (block.Code.Path.Contains("soil"))
+            {
+                if (block.Code.Path.Contains("compost") || block.Code.Path.Contains("high"))
+                {
+                    blockToMatch = block.FirstCodePart(0) + "-" + block.FirstCodePart(1);
+                }
+            }
             else
             {
                 blockToMatch = "Nothing";

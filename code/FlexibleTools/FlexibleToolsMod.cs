@@ -41,6 +41,8 @@ namespace FlexibleTools
             this.api.RegisterItemClass("RockSnifferItem", typeof(RockSnifferItem));
             this.api.RegisterItemClass("TorcMagnetItem", typeof(TorcMagnetItem));
             this.api.RegisterEntityBehaviorClass("vacuumitems", typeof(TorcMagnetBehavior));
+
+            this.api.RegisterCollectibleBehaviorClass("VeinMineBehavior", typeof(VeinMineBehavior));
             
             // the only thing you can't disable is the diamond pick
             api.World.Config.SetBool("FlexibleTools_Scythe_Enable", ToolsConfig.EnableScythe);
@@ -132,7 +134,8 @@ namespace FlexibleTools
                 ItemStack magnet = capi.World.Player.InventoryManager.GetOwnInventory("character")[(int)EnumCharacterDressType.Neck].Itemstack;
                 bool enabled = magnet.Attributes.GetAsBool("enabled");
                 clientChannel.SendPacket<bool>(!enabled);
-                capi.World.PlaySoundAt(new AssetLocation("game:sounds/effect/latch"), capi.World.Player, null, false, 8, 1);
+                if (enabled) capi.World.PlaySoundAt(new AssetLocation("game:sounds/effect/latch"), capi.World.Player, null, false, 8, 1);
+                else capi.World.PlaySoundAt(new AssetLocation("game:sounds/effect/timeswitch"), capi.World.Player, null, false, 8, 1);
             }
             return true;
         }

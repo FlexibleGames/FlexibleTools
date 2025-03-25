@@ -139,7 +139,7 @@ namespace FlexibleTools
 
         private bool entityMatcher(Entity foundEntity)
         {            
-            if (foundEntity is EntityItem)
+            if (foundEntity is EntityItem && foundEntity != null && foundEntity.Alive)
             {
                 if (config.MagnetBlackList.Count > 0)
                 {
@@ -161,7 +161,7 @@ namespace FlexibleTools
         }
         private int waitTicks;
         private Vec3d tmp = new Vec3d();
-        private float radius = 5f;
+        //private float radius = 5f;
         private float unconsumedDeltaTime;
         private float itemsPerSecond = 23f; // this is limited because the player is limited on how many things it can pick up per second.
     }

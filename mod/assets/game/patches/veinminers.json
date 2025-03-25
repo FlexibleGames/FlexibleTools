@@ -1,0 +1,28 @@
+[
+	{ "file": "game:itemtypes/tool/pickaxe.json", "op": "addmerge", "path": "/behaviors/-", "value":
+		{
+			"name": "VeinMineBehavior",
+			"propertiesByType": {
+				"*-copper": { "veinblocklimit": 8 },
+				"*bronze": { "veinblocklimit": 16 },
+				"*-iron": { "veinblocklimit": 32 },
+				"*-steel": { "veinblocklimit": 128 },
+				"*-meteoriciron": { "veinblocklimit": 256 },
+				"*": { "veinblocklimit": 1 }
+			}
+		}
+	},
+	{ "file": "game:itemtypes/tool/shovel.json", "op": "addmerge", "path": "/behaviors/-", "value":
+		{
+			"name": "VeinMineBehavior",
+			"propertiesByType": {
+				"*-copper": { "veinblocklimit": 8 },
+				"*bronze": { "veinblocklimit": 16 },
+				"*-iron": { "veinblocklimit": 32 },
+				"*-steel": { "veinblocklimit": 128 },
+				"*-meteoriciron": { "veinblocklimit": 256 },
+				"*": { "veinblocklimit": 1 }
+			}
+		}
+	}
+]
