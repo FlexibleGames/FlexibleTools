@@ -36,6 +36,7 @@ namespace FlexibleTools
             }
             if (_veinBlockLimit > 1 && sneaking) AttemptVeinMine(world, byEntity, itemslot, blockSel, dropQuantityMultiplier);
             else return base.OnBlockBrokenWith(world, byEntity, itemslot, blockSel, dropQuantityMultiplier, ref bhHandling);
+            bhHandling = EnumHandling.PreventDefault;
             return true;
         }
 
@@ -64,7 +65,7 @@ namespace FlexibleTools
             ItemStack[] blockDrops;
             bool istree = false;
             string treeGroupCode = string.Empty;
-            int savedLimit = _veinBlockLimit - 1; // 1 less as the block broken to trigger this should count.
+            int savedLimit = _veinBlockLimit;
             string blockToMatch = world.BlockAccessor.GetBlock(blockSel.Position).Code.Path; //.FirstCodePart();
 
             if (blockToMatch.Contains("log"))

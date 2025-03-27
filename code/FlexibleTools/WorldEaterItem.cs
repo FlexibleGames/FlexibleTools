@@ -92,9 +92,9 @@ namespace FlexibleTools
         public override float OnBlockBreaking(IPlayer player, BlockSelection blockSel, ItemSlot itemslot, float remainingResistance, float dt, int counter)
         {
             Block block = player.Entity.World.BlockAccessor.GetBlock(blockSel.Position);
-            string blockcode = block.Id == 0 ? "air" : block.Code.Path;            
-            
- //           if (coreapi.Side == EnumAppSide.Client) capi.ShowChatMessage($"Block hit is {blockcode} at pos {blockSel.Position}");
+            string blockcode = block.Id == 0 ? "air" : block.Code.Path;
+            blockToMatch = "Nothing";
+            //           if (coreapi.Side == EnumAppSide.Client) capi.ShowChatMessage($"Block hit is {blockcode} at pos {blockSel.Position}");
             if (block.Code.Path.Contains("ore"))
             {
                  // block to match
@@ -133,10 +133,6 @@ namespace FlexibleTools
                 {
                     blockToMatch = block.FirstCodePart(0) + "-" + block.FirstCodePart(1);
                 }
-            }
-            else
-            {
-                blockToMatch = "Nothing";
             }
             return base.OnBlockBreaking(player, blockSel, itemslot, remainingResistance, dt, counter);
         }
