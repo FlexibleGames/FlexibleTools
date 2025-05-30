@@ -19,6 +19,9 @@ namespace FlexibleTools
         public bool EnableSniffer = true;
         public bool EnableEater = true;
 
+        public bool EnableDrops = true;
+        public bool EnableVanillaVein = true;
+
         public FlexibleToolsConfig()
         {
 
@@ -37,6 +40,9 @@ namespace FlexibleTools
             this.EnableMagnet = oldconfig.EnableMagnet;
             this.EnableSniffer = oldconfig.EnableSniffer;
             this.EnableEater = oldconfig.EnableEater;
+
+            this.EnableDrops = oldconfig.EnableDrops;
+            this.EnableVanillaVein = oldconfig.EnableVanillaVein;
         }
     }
 }

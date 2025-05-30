@@ -1,5 +1,5 @@
 [
-	{ "file": "game:itemtypes/tool/pickaxe.json", "op": "addmerge", "path": "/behaviors/-", "value":
+	{ "file": "game:itemtypes/tool/pickaxe.json", "op": "addmerge", "path": "/behaviors/-", "condition": { "when": "FlexibleTools_Vein_Enable", "isValue": "true" }, "value":
 		{
 			"name": "VeinMineBehavior",
 			"propertiesByType": {
@@ -12,7 +12,7 @@
 			}
 		}
 	},
-	{ "file": "game:itemtypes/tool/shovel.json", "op": "addmerge", "path": "/behaviors/-", "value":
+	{ "file": "game:itemtypes/tool/shovel.json", "op": "addmerge", "path": "/behaviors/-", "condition": { "when": "FlexibleTools_Vein_Enable", "isValue": "true" }, "value":
 		{
 			"name": "VeinMineBehavior",
 			"propertiesByType": {

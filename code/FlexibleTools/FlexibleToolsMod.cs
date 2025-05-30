@@ -51,6 +51,10 @@ namespace FlexibleTools
             api.World.Config.SetBool("FlexibleTools_Magnet_Enable", ToolsConfig.EnableMagnet);
             api.World.Config.SetBool("FlexibleTools_Sniffer_Enable", ToolsConfig.EnableSniffer);
             api.World.Config.SetBool("FlexibleTools_Eater_Enable", ToolsConfig.EnableEater);
+
+            api.World.Config.SetBool("FlexibleTools_Drops_Enable", ToolsConfig.EnableDrops);
+            api.World.Config.SetBool("FlexibleTools_Vein_Enable", ToolsConfig.EnableVanillaVein);
+
         }        
 
         public static FlexibleToolsConfig ReadConfig(ICoreAPI api)

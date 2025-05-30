@@ -9,6 +9,7 @@ using Vintagestory.API.Util;
 using Cairo;
 using System.Collections.Generic;
 using Vintagestory.API.Datastructures;
+using Vintagestory.ServerMods.NoObf;
 
 namespace FlexibleTools
 {
@@ -45,6 +46,10 @@ namespace FlexibleTools
                     for (int z = min.Z;z <= max.Z; z++)
                     {
                         temppos.Set(x, y, z);
+
+                        // fix this bug, finally!
+                        if (world.BlockAccessor.GetBlock(temppos).BlockMaterial == EnumBlockMaterial.Mantle) continue;
+
                         if (player.WorldData.CurrentGameMode == EnumGameMode.Creative)
                         {
                             world.BlockAccessor.SetBlock(0, temppos);
@@ -57,12 +62,12 @@ namespace FlexibleTools
                                 foreach (ItemStack stack in stacks)
                                 {
                                     try
-                                    {                    
+                                    { 
                                         // try to shove into players inventory before dropping them on the ground for performance.
                                         if (!player.InventoryManager.TryGiveItemstack(stack, true))
                                         {
                                             world.SpawnItemEntity(stack, temppos.ToVec3d());
-                                        }                                     
+                                        }
                                     }
                                     catch (Exception e)
                                     {

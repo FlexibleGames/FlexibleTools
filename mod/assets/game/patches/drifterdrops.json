@@ -1,10 +1,10 @@
 [
-	{ "file": "game:entities/land/drifter.json", "op": "add", "path": "/dropsByType", "value": {} },
-	{ "file": "game:entities/land/drifter.json", "op": "replace", "path": "/server/behaviors/9/dropsByType", "value": {} },	
-	{ "file": "game:entities/land/drifter.json", "op": "replace", "path": "/server/behaviors/9/duration", "value": 0.01 },
-	{ "file": "game:entities/land/drifter.json", "op": "replace", "path": "/client/behaviors/4/duration", "value": 0.01 },	
-	{ "file": "game:entities/land/drifter.json", "op": "replace", "path": "/server/behaviors/3/hoursToDecay", "value": 0.01 },
-	{ "file": "game:entities/land/drifter.json", "op": "add", "path": "/dropsByType/*-normal", "value":
+	{ "file": "game:entities/land/drifter.json", "op": "add", "path": "/dropsByType", "condition": { "when": "FlexibleTools_Drops_Enable", "isValue": "true" }, "value": {} },
+	{ "file": "game:entities/land/drifter.json", "op": "replace", "path": "/server/behaviors/9/dropsByType", "condition": { "when": "FlexibleTools_Drops_Enable", "isValue": "true" }, "value": {} },
+	{ "file": "game:entities/land/drifter.json", "op": "replace", "path": "/server/behaviors/9/duration", "condition": { "when": "FlexibleTools_Drops_Enable", "isValue": "true" }, "value": 0.01 },
+	{ "file": "game:entities/land/drifter.json", "op": "replace", "path": "/client/behaviors/4/duration", "condition": { "when": "FlexibleTools_Drops_Enable", "isValue": "true" }, "value": 0.01 },
+	{ "file": "game:entities/land/drifter.json", "op": "replace", "path": "/server/behaviors/3/hoursToDecay", "condition": { "when": "FlexibleTools_Drops_Enable", "isValue": "true" }, "value": 0.01 },
+	{ "file": "game:entities/land/drifter.json", "op": "add", "path": "/dropsByType/*-normal", "condition": { "when": "FlexibleTools_Drops_Enable", "isValue": "true" }, "value":
 		[
 			{
 				"type": "item",
@@ -28,7 +28,7 @@
 			}
 		]
 	},
-	{ "file": "game:entities/land/drifter.json", "op": "add", "path": "/dropsByType/*-deep", "value":
+	{ "file": "game:entities/land/drifter.json", "op": "add", "path": "/dropsByType/*-deep", "condition": { "when": "FlexibleTools_Drops_Enable", "isValue": "true" }, "value":
 		[
 			{
 				"type": "item",
@@ -68,7 +68,7 @@
 			}
 		]
 	},
-	{ "file": "game:entities/land/drifter.json", "op": "add", "path": "/dropsByType/*-tainted", "value":
+	{ "file": "game:entities/land/drifter.json", "op": "add", "path": "/dropsByType/*-tainted", "condition": { "when": "FlexibleTools_Drops_Enable", "isValue": "true" }, "value":
 		[
 			{
 				"type": "item",
@@ -108,7 +108,7 @@
 			}
 		]
 	},
-	{ "file": "game:entities/land/drifter.json", "op": "add", "path": "/dropsByType/*-corrupt", "value":
+	{ "file": "game:entities/land/drifter.json", "op": "add", "path": "/dropsByType/*-corrupt", "condition": { "when": "FlexibleTools_Drops_Enable", "isValue": "true" }, "value":
 		[
 			{
 				"type": "item",
@@ -148,7 +148,7 @@
 			}
 		]
 	},
-	{ "file": "game:entities/land/drifter.json", "op": "add", "path": "/dropsByType/*-nightmare", "value":
+	{ "file": "game:entities/land/drifter.json", "op": "add", "path": "/dropsByType/*-nightmare", "condition": { "when": "FlexibleTools_Drops_Enable", "isValue": "true" }, "value":
 		[
 			{
 				"type": "item",
@@ -175,7 +175,7 @@
 				"type": "item",
 				"code": "hide-raw-medium",
 				"quantity": { "avg": 1, "var": 0 }
-			},	
+			},
 			{
 				"type": "item",
 				"code": "ore-rich-quartz_nativegold-granite",
@@ -190,10 +190,10 @@
 				"type": "item",
 				"code": "stackrandomizer-jonasparts",
 				"quantity": { "avg": 0.3, "var": 0 }
-			}			
+			}
 		]
 	},
-	{ "file": "game:entities/land/drifter.json", "op": "add", "path": "/dropsByType/*-double-headed", "value":
+	{ "file": "game:entities/land/drifter.json", "op": "add", "path": "/dropsByType/*-double-headed", "condition": { "when": "FlexibleTools_Drops_Enable", "isValue": "true" }, "value":
 		[
 			{
 				"type": "item",
@@ -225,7 +225,7 @@
 				"type": "item",
 				"code": "hide-raw-large",
 				"quantity": { "avg": 0.6, "var": 0.4 }
-			},			
+			},
 			{
 				"type": "item",
 				"code": "gem-diamond-rough",
@@ -235,7 +235,7 @@
 				"type": "item",
 				"code": "stackrandomizer-alljonas",
 				"quantity": { "avg": 0.8, "var": 0.6 }
-			}			
+			}
 		]
 	}
 ]
