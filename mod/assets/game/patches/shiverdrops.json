@@ -1,10 +1,10 @@
 [
-	{ "file": "game:entities/land/shiver.json", "op": "add", "path": "/dropsByType", "condition": { "when": "FlexibleTools_Drops_Enable", "isValue": "true" }, "value": {} },
-	{ "file": "game:entities/land/shiver.json", "op": "replace", "path": "/server/behaviors/9/dropsByType", "condition": { "when": "FlexibleTools_Drops_Enable", "isValue": "true" }, "value": {} },
-	{ "file": "game:entities/land/shiver.json", "op": "replace", "path": "/server/behaviors/9/duration", "condition": { "when": "FlexibleTools_Drops_Enable", "isValue": "true" }, "value": 0.01 },
-	{ "file": "game:entities/land/shiver.json", "op": "replace", "path": "/client/behaviors/4/duration", "condition": { "when": "FlexibleTools_Drops_Enable", "isValue": "true" }, "value": 0.01 },
-	{ "file": "game:entities/land/shiver.json", "op": "replace", "path": "/server/behaviors/3/hoursToDecay", "condition": { "when": "FlexibleTools_Drops_Enable", "isValue": "true" }, "value": 0.01 },
-	{ "file": "game:entities/land/shiver.json", "op": "add", "path": "/dropsByType/*-surface", "condition": { "when": "FlexibleTools_Drops_Enable", "isValue": "true" }, "value":
+	{ "file": "game:entities/lore/shiver.json", "op": "add", "path": "/dropsByType", "condition": { "when": "FlexibleTools_Drops_Enable", "isValue": "true" }, "value": {} },
+	{ "file": "game:entities/lore/shiver.json", "op": "replace", "path": "/server/behaviors/9/dropsByType", "condition": { "when": "FlexibleTools_Drops_Enable", "isValue": "true" }, "value": {} },
+	{ "file": "game:entities/lore/shiver.json", "op": "replace", "path": "/server/behaviors/9/duration", "condition": { "when": "FlexibleTools_Drops_Enable", "isValue": "true" }, "value": 0.01 },
+	{ "file": "game:entities/lore/shiver.json", "op": "replace", "path": "/client/behaviors/4/duration", "condition": { "when": "FlexibleTools_Drops_Enable", "isValue": "true" }, "value": 0.01 },
+	{ "file": "game:entities/lore/shiver.json", "op": "replace", "path": "/server/behaviors/3/hoursToDecay", "condition": { "when": "FlexibleTools_Drops_Enable", "isValue": "true" }, "value": 0.01 },
+	{ "file": "game:entities/lore/shiver.json", "op": "add", "path": "/dropsByType/*-surface", "condition": { "when": "FlexibleTools_Drops_Enable", "isValue": "true" }, "value":
 		[
             {
                 "type": "item",
@@ -24,7 +24,7 @@
             }
 		]
 	},
-	{ "file": "game:entities/land/shiver.json", "op": "add", "path": "/dropsByType/*-deep", "condition": { "when": "FlexibleTools_Drops_Enable", "isValue": "true" }, "value":
+	{ "file": "game:entities/lore/shiver.json", "op": "add", "path": "/dropsByType/*-deep", "condition": { "when": "FlexibleTools_Drops_Enable", "isValue": "true" }, "value":
 		[
 			{
 				"type": "item",
@@ -54,7 +54,7 @@
 			}
 		]
 	},
-	{ "file": "game:entities/land/shiver.json", "op": "add", "path": "/dropsByType/*-tainted", "condition": { "when": "FlexibleTools_Drops_Enable", "isValue": "true" }, "value":
+	{ "file": "game:entities/lore/shiver.json", "op": "add", "path": "/dropsByType/*-tainted", "condition": { "when": "FlexibleTools_Drops_Enable", "isValue": "true" }, "value":
 		[
 			{
 				"type": "item",
@@ -84,7 +84,7 @@
 			}
 		]
 	},
-	{ "file": "game:entities/land/shiver.json", "op": "add", "path": "/dropsByType/*-corrupt", "condition": { "when": "FlexibleTools_Drops_Enable", "isValue": "true" }, "value":
+	{ "file": "game:entities/lore/shiver.json", "op": "add", "path": "/dropsByType/*-corrupt", "condition": { "when": "FlexibleTools_Drops_Enable", "isValue": "true" }, "value":
 		[
 			{
 				"type": "item",
@@ -114,7 +114,7 @@
 			}
 		]
 	},
-	{ "file": "game:entities/land/shiver.json", "op": "add", "path": "/dropsByType/*-nightmare", "condition": { "when": "FlexibleTools_Drops_Enable", "isValue": "true" }, "value":
+	{ "file": "game:entities/lore/shiver.json", "op": "add", "path": "/dropsByType/*-nightmare", "condition": { "when": "FlexibleTools_Drops_Enable", "isValue": "true" }, "value":
 		[
 			{
 				"type": "item",
@@ -149,7 +149,7 @@
 			}
 		]
 	},
-	{ "file": "game:entities/land/shiver.json", "op": "add", "path": "/dropsByType/*", "condition": { "when": "FlexibleTools_Drops_Enable", "isValue": "true" }, "value":
+	{ "file": "game:entities/lore/shiver.json", "op": "add", "path": "/dropsByType/*", "condition": { "when": "FlexibleTools_Drops_Enable", "isValue": "true" }, "value":
 		[
 			{
 				"type": "item",
