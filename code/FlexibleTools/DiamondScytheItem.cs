@@ -282,7 +282,7 @@ namespace FlexibleTools
                 if (block.Code.FirstCodePart().Contains("berrybush"))
                 {
                     BlockEntityBerryBush bebb = api.World.BlockAccessor.GetBlockEntity<BlockEntityBerryBush>(pos);
-                    if (bebb.IsRipe())
+                    if (bebb.IsRipe)
                     {
                         ItemStack berrydrops = null;
                         BlockBehaviorHarvestable bbh = api.World.BlockAccessor.GetBlock(pos).GetBehavior<BlockBehaviorHarvestable>();
