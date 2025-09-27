@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
 using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
+using Vintagestory.API.Util;
 
 namespace FlexibleTools
 {
@@ -113,7 +111,7 @@ namespace FlexibleTools
                                     }
                                 }
                             }
-                            else if (dblock.Code.Path.Contains(blockToMatch))
+                            else if (dblock.Code.Path.Contains(blockToMatch) || dblock.Code.Path.Contains("charcoalpile-"))
                             {
                                 if (!blocksToMine.Contains(bcheck) && blocksToMine.Count < savedLimit)
                                 {
@@ -143,6 +141,11 @@ namespace FlexibleTools
                     {
                         foreach (ItemStack itemStack in blockDrops)
                         {
+                            var dblock = world.BlockAccessor.GetBlock(blockPos);
+                            if (dblock.Code.Path.Contains("charcoalpile-"))
+                            {
+                                itemStack.StackSize = dblock.Code.Path.Split('-')[1].ToInt(1);
+                            }
                             itemsToDrop.Add(itemStack);
                         }
                     }
