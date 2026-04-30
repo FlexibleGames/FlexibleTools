@@ -1,14 +1,15 @@
 {
 	"code": "torcmagnet",
 	"class": "TorcMagnetItem",
+    "behaviors": [
+        { "name": "Wearable" }
+    ],
 	"shape": { "base": "game:entity/humanoid/seraph/clothing/neck/torcmagnet" },
 	"storageFlags": 128,
-	"attributesByType": {
-		"*": {
-			"wearableAttachment": true,
-			"clothescategory": "neck",
-			"warmth": 0
-		}
+	"attributes": {
+		"clothescategory": "neck",
+		"wearableAttachment": true,
+		"warmth": 0
 	},
 	"durability": 1200,
 	"texturesByType": {

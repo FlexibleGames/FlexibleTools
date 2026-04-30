@@ -1,17 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Vintagestory.API;
 using Vintagestory.API.Client;
 using Vintagestory.API.Server;
 using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
-using Vintagestory.API.Config;
 using Vintagestory.API.MathTools;
-using Vintagestory.API.Util;
-using Cairo;
-using Vintagestory.API.Datastructures;
-using Vintagestory.GameContent;
 
 namespace FlexibleTools
 {
@@ -92,7 +86,7 @@ namespace FlexibleTools
                 {
                     break;
                 }
-                BlockFacing opposite = BlockFacing.FromNormal(player.Entity.ServerPos.GetViewVector()).Opposite;
+                BlockFacing opposite = BlockFacing.FromNormal(player.Entity.Pos.GetViewVector()).Opposite;
                 if (player.Entity.World.Claims.TryAccess(player, pos, EnumBlockAccessFlags.BuildOrBreak))
                 {
                     player.Entity.World.BlockAccessor.DamageBlock(pos, opposite, damage);
@@ -148,9 +142,9 @@ namespace FlexibleTools
             return true;
         }
 
-        private OrderedDictionary<BlockPos, float> GetNearbyBreakables(IWorldAccessor world, BlockPos pos, Vec3d hitPos, int radius)
+        private Vintagestory.API.Datastructures.OrderedDictionary<BlockPos, float> GetNearbyBreakables(IWorldAccessor world, BlockPos pos, Vec3d hitPos, int radius)
         {
-            OrderedDictionary<BlockPos, float> orderedDictionary = new OrderedDictionary<BlockPos, float>();
+            Vintagestory.API.Datastructures.OrderedDictionary<BlockPos, float> orderedDictionary = new Vintagestory.API.Datastructures.OrderedDictionary<BlockPos, float>();
             for (int i = -radius; i <= radius; i++)
             {
                 for (int j = -radius; j <= radius; j++)

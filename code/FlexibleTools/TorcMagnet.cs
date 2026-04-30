@@ -13,7 +13,7 @@ using System.Text;
 
 namespace FlexibleTools
 {
-    public class TorcMagnetItem : ItemWearable
+    public class TorcMagnetItem : Item
     {
         public override void OnLoaded(ICoreAPI api)
         {
@@ -98,7 +98,7 @@ namespace FlexibleTools
             
             if (!enabled) return;
             Entity[] entitiesAround;
-            this.tmp.Set(this.entity.ServerPos.X, this.entity.ServerPos.Y + (double)this.entity.SelectionBox.Y1 + (double)(this.entity.SelectionBox.Y2 / 2f), this.entity.ServerPos.Z);
+            this.tmp.Set(this.entity.Pos.X, this.entity.Pos.Y + (double)this.entity.SelectionBox.Y1 + (double)(this.entity.SelectionBox.Y2 / 2f), this.entity.Pos.Z);
             try
             {
                 entitiesAround = this.entity.World.GetEntitiesAround(this.tmp, config.MagnetPickupRadius, config.MagnetPickupRadius, new ActionConsumable<Entity>(this.entityMatcher));
@@ -127,7 +127,7 @@ namespace FlexibleTools
                     }
                     if (entity != null)
                     {                        
-                        entity.ServerPos.SetPos(entityPlayer.Pos);
+                        entity.Pos.SetPos(entityPlayer.Pos);
                     }
                     if (i > this.itemsPerSecond) break;
                 }

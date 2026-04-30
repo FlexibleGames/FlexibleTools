@@ -197,7 +197,7 @@ namespace FlexibleTools
                 {
                     break;
                 }
-                BlockFacing opposite = BlockFacing.FromNormal(player.Entity.ServerPos.GetViewVector()).Opposite;
+                BlockFacing opposite = BlockFacing.FromNormal(player.Entity.Pos.GetViewVector()).Opposite;
                 if (player.Entity.World.Claims.TryAccess(player, pos, EnumBlockAccessFlags.BuildOrBreak))
                 {
                     player.Entity.World.BlockAccessor.DamageBlock(pos, opposite, damage);
@@ -253,9 +253,9 @@ namespace FlexibleTools
             return true;
         }
 
-        private OrderedDictionary<BlockPos, float> GetNearbyBreakables(IWorldAccessor world, BlockPos pos, Vec3d hitPos, int radius)
+        private Vintagestory.API.Datastructures.OrderedDictionary<BlockPos, float> GetNearbyBreakables(IWorldAccessor world, BlockPos pos, Vec3d hitPos, int radius)
         {
-            OrderedDictionary<BlockPos, float> orderedDictionary = new OrderedDictionary<BlockPos, float>();
+            Vintagestory.API.Datastructures.OrderedDictionary<BlockPos, float> orderedDictionary = new Vintagestory.API.Datastructures.OrderedDictionary<BlockPos, float>();
             for (int i = -radius; i <= radius; i++)
             {
                 for (int j = -radius; j <= radius; j++)
@@ -279,41 +279,32 @@ namespace FlexibleTools
             {
                 Block block = api.World.BlockAccessor.GetBlock(pos);                
 
-                if (block.Code.FirstCodePart().Contains("berrybush"))
+                if (block.Code.FirstCodePart().Contains("fruitingbush"))
                 {
-                    BlockEntityBerryBush bebb = api.World.BlockAccessor.GetBlockEntity<BlockEntityBerryBush>(pos);
-                    if (bebb.IsRipe)
+                    BEBehaviorFruitingBush fruiting = api.World.BlockAccessor.GetBlockEntity(pos).GetBehavior<BEBehaviorFruitingBush>();
+                    if (fruiting != null && fruiting.BState.Growthstate == EnumFruitingBushGrowthState.Ripe)
                     {
-                        ItemStack berrydrops = null;
-                        BlockBehaviorHarvestable bbh = api.World.BlockAccessor.GetBlock(pos).GetBehavior<BlockBehaviorHarvestable>();
-                        if (bbh != null)
-                        {
-                            float droprate = 1f;
-                            droprate *= plr.Entity.Stats.GetBlended("forageDropRate");
-                            berrydrops = bbh.harvestedStack.GetNextItemStack(droprate);
-                        }                         
+                        ItemStack[] berrydrops = null;
+                        berrydrops = fruiting.GetRipeDrops(plr);
+                        
                         if (berrydrops != null)
                         {
-                            api.World.SpawnItemEntity(berrydrops, pos.ToVec3d(), null);
+                            for (int i = 0; i < berrydrops.Length; i++)
+                            {
+                                api.World.SpawnItemEntity(berrydrops[i], pos.ToVec3d(), null);
+                            }
                         }
-                        Block emptybush = api.World.GetBlock(block.CodeWithVariant("state", "empty"));
-                        if (emptybush != null)
-                        {
-                            api.World.BlockAccessor.SetBlock(emptybush.BlockId, pos);
-                            //api.World.BlockAccessor.MarkBlockDirty(pos);
-                        }
-                    }                    
-                    bebb.Pruned = true;
-                    bebb.LastPrunedTotalDays = api.World.Calendar.TotalDays;
-                    bebb.MarkDirty(true, null);
-                    api.World.BlockAccessor.MarkBlockDirty(pos);
+                        fruiting.BState.Growthstate = EnumFruitingBushGrowthState.Mature;
+                        fruiting.BState.TransitionHoursLeft = fruiting.GetHoursForNextStage();
+                        fruiting.Blockentity.MarkDirty(true);
+                    }
                     return;
                 }
 
                 Block trimmedblock = api.World.GetBlock(block.CodeWithVariant("tallgrass", "eaten"));
                 if (block == trimmedblock) return;
 
-                if (trimmedblock != null)
+                if (block.Variant.ContainsKey("tallgrass") && trimmedblock != null)
                 {
                     api.World.BlockAccessor.BreakBlock(pos, plr, 2f);
                     api.World.BlockAccessor.MarkBlockDirty(pos);

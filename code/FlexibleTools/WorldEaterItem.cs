@@ -8,8 +8,6 @@ using Vintagestory.API.MathTools;
 using Vintagestory.API.Util;
 using Cairo;
 using System.Collections.Generic;
-using Vintagestory.API.Datastructures;
-using Vintagestory.ServerMods.NoObf;
 
 namespace FlexibleTools
 {

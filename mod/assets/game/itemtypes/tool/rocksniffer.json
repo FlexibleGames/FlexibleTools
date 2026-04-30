@@ -15,10 +15,10 @@
 			translation: { x: 0, y: 0.06, z: -0.035 },
 			rotation: { x: 26, y: 88, z: -87 },
 			scale: 0.88
-		},		
+		},
 		slotRefillIdentifier: "rocksniffer"
 	},
-	behaviors: [{ 
+	behaviors: [{
 		name: "GroundStorable",
 		properties: {
 			layout: 'WallHalves',
@@ -27,11 +27,11 @@
 			selectionBox: { x1: 0, y1: 0, z1: 0, x2: 1, y2: 0.1, z2: 1 },
 			collisionBox: { x1: 0, y1: 0, z1: 0, x2: 0, y2: 0, z2: 0 },
 		}
-	}],	
+	}],
 	variantgroups: [
-		{ code: "metal", states: ["copper", "tinbronze", "bismuthbronze", "blackbronze", "gold", "silver", 
+		{ code: "metal", states: ["copper", "tinbronze", "bismuthbronze", "blackbronze", "gold", "silver",
 															"iron", "meteoriciron", "steel"
-		  ] },
+		  ] }
 	],
 	tool: "pickaxe",
 	damagedby: ["blockbreaking", "attacking"],
@@ -40,7 +40,7 @@
 	texturesByType: {
 		"*": {
 			"metal": { base: "game:block/metal/ingot/{metal}" },
-			"handle": { base: "game:item/tool/material/wood" } 
+			"handle": { base: "game:item/tool/handle" }
 		}
 	},
 	tooltierbytype: {

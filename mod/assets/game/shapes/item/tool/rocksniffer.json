@@ -9,15 +9,15 @@
 	},
 	"textures": {
 		"resin": "game:block/resin",
-		"string": "game:item/tool/material/string",
+		"string": "game:item/resource/string",
 		"metal": "game:block/metal/ingot/copper",
 		"handle": "game:item/tool/material/handle"
 	},
 	"elements": [
 		{
 			"name": "origin",
-			"from": [ 10.0, 0.5, 7.7 ], 
-			"to": [ 10.0, 0.5, 7.7 ], 
+			"from": [ 10.0, 0.5, 7.7 ],
+			"to": [ 10.0, 0.5, 7.7 ],
 			"rotationOrigin": [ 8.0, 0.0, 8.0 ],
 			"faces": {
 				"north": { "texture": "#string", "uv": [ 0.0, 0.0, 0.5, 0.5 ] },
@@ -30,8 +30,8 @@
 			"children": [
 				{
 					"name": "handle",
-					"from": [ -8.0, -0.5, -0.5 ], 
-					"to": [ 7.5, 1.0, 1.0 ], 
+					"from": [ -8.0, -0.5, -0.5 ],
+					"to": [ 7.5, 1.0, 1.0 ],
 					"rotationOrigin": [ -9.5, -8.0, 0.0 ],
 					"faces": {
 						"north": { "texture": "#handle", "uv": [ 0.0, 5.5, 15.5, 7.0 ] },
@@ -44,8 +44,8 @@
 				},
 				{
 					"name": "string 1",
-					"from": [ 5.8, -0.9, -1.0 ], 
-					"to": [ 6.3, 1.3, 2.0 ], 
+					"from": [ 5.8, -0.9, -1.0 ],
+					"to": [ 6.3, 1.3, 2.0 ],
 					"rotationOrigin": [ 5.8, -0.9, 0.5 ],
 					"rotationY": 51.999988138810544,
 					"rotationZ": -1.0,
@@ -60,8 +60,8 @@
 				},
 				{
 					"name": "string 2",
-					"from": [ 5.8, -0.9, -1.5 ], 
-					"to": [ 6.3, 1.3, 1.7 ], 
+					"from": [ 5.8, -0.9, -1.5 ],
+					"to": [ 6.3, 1.3, 1.7 ],
 					"rotationOrigin": [ 5.8, -0.9, 0.0 ],
 					"rotationY": -52.0,
 					"faces": {
@@ -75,8 +75,8 @@
 				},
 				{
 					"name": "string 3",
-					"from": [ 4.5, -0.6, -0.7 ], 
-					"to": [ 5.0, 1.1, 1.3 ], 
+					"from": [ 4.5, -0.6, -0.7 ],
+					"to": [ 5.0, 1.1, 1.3 ],
 					"rotationOrigin": [ 4.5, -0.6, 0.8 ],
 					"rotationY": 12.000001625280545,
 					"faces": {
@@ -90,8 +90,8 @@
 				},
 				{
 					"name": "string 4",
-					"from": [ 3.7, -0.6, -0.9 ], 
-					"to": [ 4.2, 1.1, 1.1 ], 
+					"from": [ 3.7, -0.6, -0.9 ],
+					"to": [ 4.2, 1.1, 1.1 ],
 					"rotationOrigin": [ 3.7, -0.6, 0.6 ],
 					"rotationX": 1.9999995073623897,
 					"rotationY": -25.999996984765755,
@@ -107,8 +107,8 @@
 				},
 				{
 					"name": "string 5",
-					"from": [ 3.3, -0.6, -0.8 ], 
-					"to": [ 3.8, 1.1, 1.2 ], 
+					"from": [ 3.3, -0.6, -0.8 ],
+					"to": [ 3.8, 1.1, 1.2 ],
 					"rotationOrigin": [ 3.3, -0.6, 0.7 ],
 					"rotationX": 0.9999997998811924,
 					"faces": {
@@ -122,8 +122,8 @@
 				},
 				{
 					"name": "segment main",
-					"from": [ 5.0, -0.8, -1.0 ], 
-					"to": [ 7.0, 1.2, 1.5 ], 
+					"from": [ 5.0, -0.8, -1.0 ],
+					"to": [ 7.0, 1.2, 1.5 ],
 					"rotationOrigin": [ 5.0, -0.8, -1.0 ],
 					"faces": {
 						"north": { "texture": "#metal", "uv": [ 7.0, 3.0, 9.0, 5.0 ] },
@@ -136,8 +136,8 @@
 				},
 				{
 					"name": "segment 1",
-					"from": [ 5.2, -0.3, -3.3 ], 
-					"to": [ 6.7, 0.7, -0.8 ], 
+					"from": [ 5.2, -0.3, -3.3 ],
+					"to": [ 6.7, 0.7, -0.8 ],
 					"rotationOrigin": [ 6.2, -0.3, -0.3 ],
 					"faces": {
 						"north": { "texture": "#metal", "uv": [ 1.0, 5.0, 2.5, 6.0 ] },
@@ -150,8 +150,8 @@
 					"children": [
 						{
 							"name": "segment 2",
-							"from": [ 0.3, 0.3, -1.4 ], 
-							"to": [ 1.3, 0.8, 0.1 ], 
+							"from": [ 0.3, 0.3, -1.4 ],
+							"to": [ 1.3, 0.8, 0.1 ],
 							"rotationOrigin": [ 0.8, 0.8, 0.6 ],
 							"rotationX": -1.0,
 							"rotationY": 10.0,
@@ -166,8 +166,8 @@
 						},
 						{
 							"name": "segment 2 tip",
-							"from": [ -0.1, 0.2, -2.8 ], 
-							"to": [ 0.4, 0.7, -1.3 ], 
+							"from": [ -0.1, 0.2, -2.8 ],
+							"to": [ 0.4, 0.7, -1.3 ],
 							"rotationOrigin": [ 0.4, 0.7, -1.8 ],
 							"rotationY": 30.0,
 							"faces": {
@@ -183,8 +183,8 @@
 				},
 				{
 					"name": "segment 4",
-					"from": [ 5.2, -0.3, 1.5 ], 
-					"to": [ 6.7, 0.7, 2.0 ], 
+					"from": [ 5.2, -0.3, 1.5 ],
+					"to": [ 6.7, 0.7, 2.0 ],
 					"rotationOrigin": [ 6.2, -0.3, 4.5 ],
 					"faces": {
 						"north": { "texture": "#metal", "uv": [ 1.0, 5.0, 2.5, 6.0 ] },
@@ -197,8 +197,8 @@
 				},
 				{
 					"name": "string 6",
-					"from": [ 6.4, -0.6, -0.8 ], 
-					"to": [ 6.9, 1.1, 1.2 ], 
+					"from": [ 6.4, -0.6, -0.8 ],
+					"to": [ 6.9, 1.1, 1.2 ],
 					"rotationOrigin": [ 6.4, -0.6, 0.7 ],
 					"rotationY": 6.0,
 					"rotationZ": 2.0,
@@ -213,8 +213,8 @@
 				},
 				{
 					"name": "handle16",
-					"from": [ -11.0, -0.5, -0.5 ], 
-					"to": [ -8.0, 1.0, 1.0 ], 
+					"from": [ -11.0, -0.5, -0.5 ],
+					"to": [ -8.0, 1.0, 1.0 ],
 					"rotationOrigin": [ -12.5, -8.0, 0.0 ],
 					"faces": {
 						"north": { "texture": "#handle", "uv": [ 0.0, 5.5, 3.0, 7.0 ] },
